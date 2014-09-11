@@ -54,6 +54,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import org.tvheadend.tvhclient.cast.CastUtils;
+
 public class MainActivity extends ActionBarActivity implements ChangeLogDialogInterface, ActionBarInterface, FragmentStatusInterface, FragmentScrollInterface, HTSListener {
     
     @SuppressWarnings("unused")
@@ -263,6 +265,9 @@ public class MainActivity extends ActionBarActivity implements ChangeLogDialogIn
             failedRecordingListPosition = savedInstanceState.getInt(Constants.FAILED_RECORDING_LIST_POSITION, 0);
             connectionStatus = savedInstanceState.getString(Constants.BUNDLE_CONNECTION_STATUS);
         }
+        
+        CastUtils.initialize(this);
+
     }
 
     /**
@@ -356,6 +361,7 @@ public class MainActivity extends ActionBarActivity implements ChangeLogDialogIn
         } else {
             changeLogDialogDismissed();
         }
+        CastUtils.addMediaRouterCallback();
     }
 
     /**
@@ -394,6 +400,9 @@ public class MainActivity extends ActionBarActivity implements ChangeLogDialogIn
 
     @Override
     public void onPause() {
+        if (isFinishing()) {
+            CastUtils.removeMediaRouterCallback();
+        }
         super.onPause();
         TVHClientApplication app = (TVHClientApplication) getApplication();
         app.removeListener(this);
@@ -467,6 +476,7 @@ public class MainActivity extends ActionBarActivity implements ChangeLogDialogIn
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        CastUtils.onCreateOptionsMenu(this, menu);
         return true;
     }
 

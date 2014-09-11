@@ -19,6 +19,7 @@
  */
 package org.tvheadend.tvhclient;
 
+import org.tvheadend.tvhclient.cast.CastUtils;
 import org.tvheadend.tvhclient.htsp.HTSService;
 import org.tvheadend.tvhclient.interfaces.HTSListener;
 import org.tvheadend.tvhclient.model.HttpTicket;
@@ -105,45 +106,58 @@ public class ExternalPlaybackActivity extends Activity implements HTSListener {
             url += "&scodec=" + scodec;
         }
 
-        final Intent playbackIntent = new Intent(Intent.ACTION_VIEW);
-        playbackIntent.setDataAndType(Uri.parse(url), mime);
-        Log.d(TAG, "Playing URL " + url);
-
-        // Start playing the video now in the UI thread
-        this.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    Log.d(TAG, "Starting external player");
-                    startActivity(playbackIntent);
-                    finish();
-                } catch (Throwable t) {
-                    Log.e(TAG, "Can't execute external media player", t);
-
-                    // Show a confirmation dialog before deleting the recording
-                    new AlertDialog.Builder(context)
-                    .setTitle(R.string.no_media_player)
-                    .setMessage(R.string.show_play_store)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                Log.d(TAG, "Starting play store to download external players");
-                                Intent installIntent = new Intent(Intent.ACTION_VIEW);
-                                installIntent.setData(Uri.parse("market://search?q=free%20video%20player&c=apps"));
-                                startActivity(installIntent);
-                            } catch (Throwable t2) {
-                                Log.e(TAG, "Could not start google play store", t2);
-                            } finally {
-                                finish();
-                            }
-                        }
-                    }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).show();
-                }
-            }
-        });
+        if (CastUtils.getCastDevice() != null) {
+            CastUtils.connect(this, "title", url, mime, new CastUtils.OnConnectedCallback() {
+				
+	          	  @Override
+	        	  public void onConnected(String title, String url, String mime) {
+	          		  Log.d("CastUtils", "onConnected in ExternalPlayerbackActivity");
+	                  CastUtils.play(title, url, mime);
+	          	  }
+            });
+        }
+        else {
+	
+	        final Intent playbackIntent = new Intent(Intent.ACTION_VIEW);
+	        playbackIntent.setDataAndType(Uri.parse(url), mime);
+	        Log.d(TAG, "Playing URL " + url);
+	
+	        // Start playing the video now in the UI thread
+	        this.runOnUiThread(new Runnable() {
+	            public void run() {
+	                try {
+	                    Log.d(TAG, "Starting external player");
+	                    startActivity(playbackIntent);
+	                    finish();
+	                } catch (Throwable t) {
+	                    Log.e(TAG, "Can't execute external media player", t);
+	
+	                    // Show a confirmation dialog before deleting the recording
+	                    new AlertDialog.Builder(context)
+	                    .setTitle(R.string.no_media_player)
+	                    .setMessage(R.string.show_play_store)
+	                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	                        public void onClick(DialogInterface dialog, int which) {
+	                            try {
+	                                Log.d(TAG, "Starting play store to download external players");
+	                                Intent installIntent = new Intent(Intent.ACTION_VIEW);
+	                                installIntent.setData(Uri.parse("market://search?q=free%20video%20player&c=apps"));
+	                                startActivity(installIntent);
+	                            } catch (Throwable t2) {
+	                                Log.e(TAG, "Could not start google play store", t2);
+	                            } finally {
+	                                finish();
+	                            }
+	                        }
+	                    }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	                        public void onClick(DialogInterface dialog, int which) {
+	                            finish();
+	                        }
+	                    }).show();
+	                }
+	            }
+	        });
+        }
     }
 
     /**

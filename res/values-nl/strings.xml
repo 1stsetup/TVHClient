@@ -347,4 +347,8 @@
     <string name="drawer_open">Open naviatie paneel</string>
     <string name="drawer_close">Sluit navigatie paneel</string>
     
+    <!-- Strings needed for cast functionality -->
+    <string name="chromecast">Chromecast</string>
+    <string name="pref_playback_chromecast_sum">Stel opties in voor afspelen via Chromecast.</string>
+    <string name="media_route_menu_title">Afspelen op&#8230;</string>
 </resources>

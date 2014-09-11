@@ -347,4 +347,8 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <!-- Strings needed for cast functionality -->
+    <string name="chromecast">Chromecast</string>
+    <string name="pref_playback_chromecast_sum">Configure options for playback via Chromecast.</string>
+    <string name="media_route_menu_title">Play on&#8230;</string>
 </resources>
