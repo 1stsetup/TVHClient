@@ -27,6 +27,7 @@ public class Stream {
     public static final String STREAM_TYPE_H264 = "H264";
     public static final String STREAM_TYPE_VP8 = "VP8";
     public static final String STREAM_TYPE_AAC = "AAC";
+    public static final String STREAM_TYPE_VORBIS = "VORBIS";
     public int index;
     public String type;
     public String language;

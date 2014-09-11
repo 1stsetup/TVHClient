@@ -6,23 +6,27 @@
         <item>384</item>
         <item>288</item>
         <item>192</item>
-    </string-array>
+        <item>0</item>
+        </string-array>
     <string-array name="pref_res_list_display">
         <item>576p</item>
         <item>480p</item>
         <item>384p</item>
         <item>288p</item>
         <item>192p</item>
-    </string-array>
+        <item>Gelijk aan bron</item>
+        </string-array>
     
     <string-array name="pref_acodec_list">
         <item>AAC</item>
         <item>MPEG2AUDIO</item>
-    </string-array>
+        <item>VORBIS</item>
+        </string-array>
     <string-array name="pref_acodec_list_display">
         <item>Advanced Audio Codec (AAC)</item>
         <item>MPEG-2 Audio Layer II (MP2)</item>
-    </string-array>
+         <item>Vorbis</item>
+        </string-array>
     
     <string-array name="pref_vcodec_list">
         <item>H264</item>

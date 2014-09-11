@@ -1,5 +1,6 @@
 package org.tvheadend.tvhclient;
 
+import org.tvheadend.tvhclient.cast.CastUtils;
 import org.tvheadend.tvhclient.model.Channel;
 import org.tvheadend.tvhclient.model.Connection;
 import org.tvheadend.tvhclient.model.Recording;
@@ -31,30 +32,50 @@ public class PlaybackSelectionActivity extends Activity {
         intent.putExtra("serverHostPref", conn.address);
         intent.putExtra("httpPortPref", conn.streaming_port);
         
-        if (ch != null) {
-            // Pass on the channel id and the other settings
-            intent.putExtra("channelId", ch.id);
-            intent.putExtra("resolutionPref", Integer.parseInt(prefs.getString("progResolutionPref", "288")));
-            intent.putExtra("transcodePref", prefs.getBoolean("progTranscodePref", true));
-            intent.putExtra("acodecPref", prefs.getString("progAcodecPref", Stream.STREAM_TYPE_AAC));
-            intent.putExtra("vcodecPref", prefs.getString("progVcodecPref", Stream.STREAM_TYPE_H264));
-            intent.putExtra("scodecPref", prefs.getString("progScodecPref", "NONE"));
-            intent.putExtra("containerPref", prefs.getString("progContainerPref", "matroska"));
-
-        } else if (rec != null) {
-            // Pass on the recording id and the other settings
-            intent.putExtra("dvrId", rec.id);
-            intent.putExtra("resolutionPref", Integer.parseInt(prefs.getString("recResolutionPref", "288")));
-            intent.putExtra("transcodePref", prefs.getBoolean("recTranscodePref", false));
-            intent.putExtra("acodecPref", prefs.getString("recAcodecPref", Stream.STREAM_TYPE_AAC));
-            intent.putExtra("vcodecPref", prefs.getString("recVcodecPref", Stream.STREAM_TYPE_MPEG4VIDEO));
-            intent.putExtra("scodecPref", prefs.getString("recScodecPref", "PASS"));
-            intent.putExtra("containerPref", prefs.getString("recContainerPref", "matroska"));
-        } else {
-            // This call should never be made 
-            return;
+        if (CastUtils.getCastDevice() != null) {
+            intent.putExtra("resolutionPref", Integer.parseInt(prefs.getString("castResolutionPref", "288")));
+            intent.putExtra("transcodePref", prefs.getBoolean("castTranscodePref", true));
+            intent.putExtra("acodecPref", prefs.getString("castAcodecPref", Stream.STREAM_TYPE_VORBIS));
+            intent.putExtra("vcodecPref", prefs.getString("castVcodecPref", Stream.STREAM_TYPE_VP8));
+            intent.putExtra("scodecPref", prefs.getString("castScodecPref", "NONE"));
+            intent.putExtra("containerPref", prefs.getString("castContainerPref", "matroska"));
+	        if (ch != null) {
+	            // Pass on the channel id and the other settings
+	            intent.putExtra("channelId", ch.id);
+	        } else if (rec != null) {
+	            // Pass on the recording id and the other settings
+	            intent.putExtra("dvrId", rec.id);
+	        } else {
+	            // This call should never be made 
+	            return;
+	        }
         }
-
+        else {
+	        if (ch != null) {
+	            // Pass on the channel id and the other settings
+	            intent.putExtra("channelId", ch.id);
+	            intent.putExtra("resolutionPref", Integer.parseInt(prefs.getString("progResolutionPref", "288")));
+	            intent.putExtra("transcodePref", prefs.getBoolean("progTranscodePref", true));
+	            intent.putExtra("acodecPref", prefs.getString("progAcodecPref", Stream.STREAM_TYPE_AAC));
+	            intent.putExtra("vcodecPref", prefs.getString("progVcodecPref", Stream.STREAM_TYPE_H264));
+	            intent.putExtra("scodecPref", prefs.getString("progScodecPref", "NONE"));
+	            intent.putExtra("containerPref", prefs.getString("progContainerPref", "matroska"));
+	
+	        } else if (rec != null) {
+	            // Pass on the recording id and the other settings
+	            intent.putExtra("dvrId", rec.id);
+	            intent.putExtra("resolutionPref", Integer.parseInt(prefs.getString("recResolutionPref", "288")));
+	            intent.putExtra("transcodePref", prefs.getBoolean("recTranscodePref", false));
+	            intent.putExtra("acodecPref", prefs.getString("recAcodecPref", Stream.STREAM_TYPE_AAC));
+	            intent.putExtra("vcodecPref", prefs.getString("recVcodecPref", Stream.STREAM_TYPE_MPEG4VIDEO));
+	            intent.putExtra("scodecPref", prefs.getString("recScodecPref", "PASS"));
+	            intent.putExtra("containerPref", prefs.getString("recContainerPref", "matroska"));
+	        } else {
+	            // This call should never be made 
+	            return;
+	        }
+        }
+        
         // Now start the activity
         startActivity(intent);
         finish();
