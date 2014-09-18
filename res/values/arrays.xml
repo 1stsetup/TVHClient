@@ -32,11 +32,13 @@
         <item>H264</item>
         <item>MPEG4VIDEO</item>
         <item>VP8</item>
+        <item>MPEG2VIDEO</item>
     </string-array>
     <string-array name="pref_vcodec_list_display">
         <item>MPEG-4 AVC (H.264)</item>
         <item>MPEG-4 Part 2</item>
         <item>VP8</item>
+        <item>MPEG-2</item>
     </string-array>
     
     <string-array name="pref_scodec_list">
