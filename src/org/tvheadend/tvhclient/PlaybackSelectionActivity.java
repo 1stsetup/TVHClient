@@ -42,9 +42,11 @@ public class PlaybackSelectionActivity extends Activity {
 	        if (ch != null) {
 	            // Pass on the channel id and the other settings
 	            intent.putExtra("channelId", ch.id);
+	            intent.putExtra("castTitle", ch.name + ": " + ch.epg.iterator().next().title);
 	        } else if (rec != null) {
 	            // Pass on the recording id and the other settings
 	            intent.putExtra("dvrId", rec.id);
+	            intent.putExtra("castTitle", rec.title + " ");
 	        } else {
 	            // This call should never be made 
 	            return;

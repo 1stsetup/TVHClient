@@ -107,11 +107,11 @@ public class ExternalPlaybackActivity extends Activity implements HTSListener {
         }
 
         if (CastUtils.getCastDevice() != null) {
-            CastUtils.connect(this, "title", url, mime, new CastUtils.OnConnectedCallback() {
+            CastUtils.connect(this, getIntent().getStringExtra("castTitle"), url, mime, new CastUtils.OnConnectedCallback() {
 				
 	          	  @Override
 	        	  public void onConnected(String title, String url, String mime) {
-	          		  Log.d("CastUtils", "onConnected in ExternalPlayerbackActivity");
+	          		  Log.d("CastUtils", "onConnected in ExternalPlayerbackActivity. Title=\'"+title+"\'");
 	                  CastUtils.play(title, url, mime);
 	          	  }
             });
