@@ -290,7 +290,7 @@ public class ChannelListFragment extends Fragment implements HTSListener, Fragme
             return true;
 
         case R.id.menu_search_epg:
-            startActivity(new SearchEPGIntent(activity, program.title));
+            startActivity(new SearchEPGIntent(activity, channel, program.title));
             return true;
             
         case R.id.menu_record_remove:
@@ -371,8 +371,12 @@ public class ChannelListFragment extends Fragment implements HTSListener, Fragme
         if (actionBarInterface != null) {
             actionBarInterface.setActionBarTitle((currentTag == null) ? getString(R.string.all_channels) : currentTag.name, TAG);
             actionBarInterface.setActionBarSubtitle(adapter.getCount() + " " + getString(R.string.items), TAG);
-            if (!isDualPane) {
-                actionBarInterface.setActionBarIcon(null, TAG);
+            // If activated show the the channel tag icon
+            if (Utils.showChannelIcons(activity) && Utils.showChannelTagIcon(activity)
+                    && currentTag != null) {
+                actionBarInterface.setActionBarIcon(currentTag.iconBitmap, TAG);
+            } else {
+                actionBarInterface.setActionBarIcon(R.drawable.ic_launcher, TAG);
             }
         }
         if (fragmentStatusInterface != null) {
