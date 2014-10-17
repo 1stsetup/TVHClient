@@ -162,30 +162,28 @@ public class ChannelListFragment extends Fragment implements HTSListener, Fragme
         // Inform the activity when the channel list is scrolling or has
         // finished scrolling. This is only valid in the program guide
         // where only the channels are shown.
-        if (showOnlyChannels) {
-            listView.setOnScrollListener(new OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState) {
-                    if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                        enableScrolling = true;
-                    } else if (scrollState == SCROLL_STATE_IDLE && enableScrolling) {
-                        if (fragmentScrollInterface != null) {
-                            enableScrolling = false;
-                            fragmentScrollInterface.onScrollStateIdle(TAG);
-                        }
+        listView.setOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+                    enableScrolling = true;
+                } else if (scrollState == SCROLL_STATE_IDLE && enableScrolling) {
+                    if (fragmentScrollInterface != null) {
+                        enableScrolling = false;
+                        fragmentScrollInterface.onScrollStateIdle(TAG);
                     }
                 }
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    if (fragmentScrollInterface != null && enableScrolling) {
-                        int position = view.getFirstVisiblePosition();
-                        View v = view.getChildAt(0);
-                        int offset = (v == null) ? 0 : v.getTop();
-                        fragmentScrollInterface.onScrollingChanged(position, offset, TAG);
-                    }
+            }
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (fragmentScrollInterface != null && enableScrolling) {
+                    int position = view.getFirstVisiblePosition();
+                    View v = view.getChildAt(0);
+                    int offset = (v == null) ? 0 : v.getTop();
+                    fragmentScrollInterface.onScrollingChanged(position, offset, TAG);
                 }
-            });
-        }
+            }
+        });
 
         // Create the dialog with the available channel tags
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -276,6 +274,12 @@ public class ChannelListFragment extends Fragment implements HTSListener, Fragme
                     program = it.next();
                 }
             }
+        }
+
+        // Stop if the program is still null. this should't happen because the
+        // user has selected the context menu of an available program. 
+        if (program == null) {
+            return super.onContextItemSelected(item);
         }
 
         // Check if the context menu call came from the list in this fragment
@@ -373,7 +377,8 @@ public class ChannelListFragment extends Fragment implements HTSListener, Fragme
             actionBarInterface.setActionBarSubtitle(adapter.getCount() + " " + getString(R.string.items), TAG);
             // If activated show the the channel tag icon
             if (Utils.showChannelIcons(activity) && Utils.showChannelTagIcon(activity)
-                    && currentTag != null) {
+                    && currentTag != null 
+                    && currentTag.id != 0) {
                 actionBarInterface.setActionBarIcon(currentTag.iconBitmap, TAG);
             } else {
                 actionBarInterface.setActionBarIcon(R.drawable.ic_launcher, TAG);

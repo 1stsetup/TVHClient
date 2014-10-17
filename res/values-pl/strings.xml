@@ -70,7 +70,9 @@
 
     <string name="pref_user_interface">Interfejs użytkownika</string>
     <string name="pref_icons">Ikony kanałów</string>
-    <string name="pref_icons_sum">Pokazać ikony kanałów?</string>
+    <string name="pref_icons_sum">Pokaż ikony kanałów</string>
+    <string name="pref_tag_icon">Ikona tagu kanałów</string>
+    <string name="pref_tag_icon_sum">Pokaż ikonę tagu kanałów zamiast loga aplikacji.</string>
     <string name="pref_theme">Lekki motyw</string>
     <string name="pref_theme_sum">Użyj lekkiego motywu</string>
     <string name="pref_language">Język</string>
@@ -274,7 +276,7 @@
     </string-array>
 
     <string name="no_transmission">Brak transmisji</string>
-    <string name="no_data">Brak dostępnych danych programu</string>
+    <string name="no_data">Brak dostępnych danych dla kanału</string>
     <string name="minutes">%d min</string>
     
     <string name="search_hint">Szukaj w EPG</string>
@@ -324,7 +326,7 @@
     <string name="all_channels">Wszystkie kanały</string>
     <string name="season">Sezon</string>
     <string name="episode">Odcinek</string>
-    <string name="part">Część</string>
+    <string name="part">Odcinek</string>
     <string name="progress">%1$d%% z transmisji zostało pokazane</string>
 
     <string name="connection">Połączenie</string>

@@ -68,7 +68,7 @@ import android.util.Log;
  */
 public class HTSService extends Service implements HTSConnectionListener {
 
-    private static final String TAG = "HTSService";
+    private static final String TAG = HTSService.class.getSimpleName();
     
     private ScheduledExecutorService execService;
     private HTSConnection connection;
@@ -187,16 +187,10 @@ public class HTSService extends Service implements HTSConnectionListener {
         }
     }
 
-    @Override
-    public void onConnectionState(final String state) {
+    public void onError(final String error) {
         TVHClientApplication app = (TVHClientApplication) getApplication();
         app.setLoading(false);
-        app.setConnectionState(state);
-    }
-
-    public void onError(final int errorCode) {
-        TVHClientApplication app = (TVHClientApplication) getApplication();
-        app.setLoading(false);
+        app.setConnectionState(error);
     }
 
     @Override
@@ -386,6 +380,7 @@ public class HTSService extends Service implements HTSConnectionListener {
     private void onInitialSyncCompleted(HTSMessage msg) {
         TVHClientApplication app = (TVHClientApplication) getApplication();
         app.setLoading(false);
+        app.setConnectionState(Constants.ACTION_CONNECTION_STATE_OK);
     }
 
     private void onStartSubscription(HTSMessage msg) {
@@ -722,7 +717,7 @@ public class HTSService extends Service implements HTSConnectionListener {
         SeriesInfo info = new SeriesInfo();
         info.episodeCount = msg.getInt("episodeCount", 0);
         info.episodeNumber = msg.getInt("episodeNumber", 0);
-        info.onScreen = msg.getString("onScreen", "");
+        info.onScreen = msg.getString("episodeOnscreen", "");
         info.partCount = msg.getInt("partCount", 0);
         info.partNumber = msg.getInt("partNumber", 0);
         info.seasonCount = msg.getInt("seasonCount", 0);
